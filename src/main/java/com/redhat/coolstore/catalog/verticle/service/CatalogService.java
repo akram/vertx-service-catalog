@@ -11,28 +11,35 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 
+@ProxyGen
 public interface CatalogService {
 
-    final static String ADDRESS = "catalog-service"; 
+	final static String ADDRESS = "catalog-service";
 
-    static CatalogService create(Vertx vertx, JsonObject config, MongoClient client) {
-        return new CatalogServiceImpl(vertx, config, client);
-    }
+	static CatalogService create(Vertx vertx, JsonObject config, MongoClient client) {
+		return new CatalogServiceImpl(vertx, config, client);
+	}
 
-    //----
-    //
-    // Add a static method that returns an instance of the client side proxy class for this service
-    // Initialize the proxy with the vertx instance and the event bus address (ADDRESS)
-    // Method signature:
-    // static CatalogService createProxy(Vertx vertx)
-    //----
+	// ----
+	//
+	// Add a static method that returns an instance of the client side proxy
+	// class for this service
+	// Initialize the proxy with the vertx instance and the event bus address
+	// (ADDRESS)
+	// Method signature:
+	// static CatalogService createProxy(Vertx vertx)
+	// ----
 
-    void getProducts(Handler<AsyncResult<List<Product>>> resulthandler);
+	static CatalogService createProxy(Vertx vertx) {
+		return create(vertx, null, null);
+	}
 
-    void getProduct(String itemId, Handler<AsyncResult<Product>> resulthandler);
+	void getProducts(Handler<AsyncResult<List<Product>>> resulthandler);
 
-    void addProduct(Product product, Handler<AsyncResult<String>> resulthandler);
+	void getProduct(String itemId, Handler<AsyncResult<Product>> resulthandler);
 
-    void ping(Handler<AsyncResult<String>> resultHandler);
+	void addProduct(Product product, Handler<AsyncResult<String>> resulthandler);
+
+	void ping(Handler<AsyncResult<String>> resultHandler);
 
 }
